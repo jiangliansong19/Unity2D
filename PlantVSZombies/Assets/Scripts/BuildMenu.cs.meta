@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: b084c28d654cb4bae8ae5d453a3025b5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sunImage: {instanceID: 0}
+  - zombiePrefab: {fileID: 4166445522706165849, guid: 6047a183b634d4ac2aa4ca3ebbaa729d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
