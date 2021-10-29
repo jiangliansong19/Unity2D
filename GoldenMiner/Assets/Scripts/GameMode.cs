@@ -6,23 +6,21 @@ public class GameMode: MonoBehaviour {
 
     public static GameMode Instance;
 
-    public Dictionary<string, GameObject> templates;
+    public Dictionary<string, GameObject> templates; //<名称：道具>
 
     public List<GameObject> levelObjs;
 
-    public string[] objNames;
+    public string[] objNames; //分数道具的名称
 
-    public int[] fractionDatas;
+    public int[] fractionDatas; //分数道具的分数
 
     public int[] targetFraction; //每一关的目标分数
 
     public string[] propsNames; //特殊道具名称
 
-    public float minX, maxX, minY, maxY;
+    public float minX, maxX, minY, maxY; //挖矿的范围
 
-
-    public float[] scaleData;
-
+    public float[] scaleData; //道具的缩放比例
 
     public int curFraction; // 当前的总分数
 
@@ -36,7 +34,7 @@ public class GameMode: MonoBehaviour {
         Instance = this;
 
         targetFraction = new int[] {3000, 4000, 5000, 6000};
-        objNames = new string[] {"Diamend", "GoldOne", "GoleTwo", "StoneOne", "StoneTwo"};
+        objNames = new string[] {"Diamend", "GoldOne", "GoldTwo", "StoneOne", "StoneTwo"};
         propsNames = new string[] {"Explosive", "Potion"};
         scaleData = new float[] {1.0f, 1.2f, 1.5f, 1.8f, 2.0f};
         fractionDatas = new int[] {1000, 300, 500, 100, 150};
@@ -72,7 +70,8 @@ public class GameMode: MonoBehaviour {
             //随机分数道具
             int objIndex = Random.Range(0, objNames.Length);
             string tmpName = objNames[objIndex];
-            GameObject tmpObj = GetRandomProps(tmpName);
+            GameObject tmpObj = CreateRandomProps(tmpName);
+
             float tmpScale = 1;
             int scaleLevel = 1;
             //处理钻石无缩放旋转，其它的随机缩放旋转
@@ -110,7 +109,12 @@ public class GameMode: MonoBehaviour {
 
     }
 
-    public GameObject GetRandomProps(string name) {
+    /// <summary>
+    /// 根据prefab的名称，创建分数道具
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns>分数道具</returns>
+    public GameObject CreateRandomProps(string name) {
         GameObject obj = templates[name];
         Vector3 tmpPoint = GetRandomPosition();
         GameObject tmpObj = Instantiate(obj, tmpPoint, Quaternion.identity);
@@ -145,7 +149,7 @@ public class GameMode: MonoBehaviour {
     }
 
     public GameObject GetGameObjectWithPrefabName(string name) {
-        GameObject obj = Resources.Load<GameObject>("Prefab/" + name);
+        GameObject obj = Resources.Load<GameObject>("Prefabs/" + name);
         return obj;
     }
 }

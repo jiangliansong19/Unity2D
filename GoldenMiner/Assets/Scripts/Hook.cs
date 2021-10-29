@@ -9,21 +9,25 @@ public enum RotationDir
 }
 
 
-public class HookLine : MonoBehaviour
+public class Hook : MonoBehaviour
 {
-    public Transform starts;
-    LineRenderer lineRenderer;
+    public Transform starts;//绳卷位置
 
-    Vector3 hookOrigin;
+    LineRenderer lineRenderer; //线条渲染
 
-    public RotationDir rotateDir;
-    public float rotateSpeed = 0.15f;
+    Vector3 hookOrigin;//hook的初始位置
 
-    public float moveSpeed = 2.5f;
+    public RotationDir rotateDir;//hook的摆动方向
+
+    public float rotateSpeed = 0.15f;//hook的摆动速度
+
+    public float moveSpeed = 2.5f;//hook的前进速度
 
     bool isFiring = false; //hook是否已经发出
 
     bool isBacking = false; //hook是否正在返回
+
+    PropsScript beHookedProps;//被勾住的道具
 
     private void Awake() {
         hookOrigin = transform.position;
@@ -54,7 +58,7 @@ public class HookLine : MonoBehaviour
             if (isFiring && !isBacking) {
                 HookMoveForward();
             } else if (isFiring && isBacking) {
-                HookBackMove();
+                HookMoveBack();
             }
         }
 
@@ -62,22 +66,37 @@ public class HookLine : MonoBehaviour
             isFiring = true;
             isBacking = true;
         }
+
+        if (HookReturnToOrigin() == true)
+        {
+            isFiring = false;
+            isBacking = false;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    /// <summary>
+    /// Hook碰到道具时
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         PropsScript script = other.gameObject.GetComponent<PropsScript>();
         if (script != null) {
             float tmpDistance = Vector3.Distance(transform.position, script.transform.position);
             script.transform.position = transform.position + transform.up * -1 * tmpDistance;
             script.transform.SetParent(transform);
             moveSpeed = moveSpeed - moveSpeed * 0.15f * script.scaleLevel;
-            
+
+            beHookedProps = script;
+
             isBacking = true;
             isFiring = true;
         }
     }
 
-
+    /// <summary>
+    /// 更新绳索的位置
+    /// </summary>
     void updateLine()
     {
         lineRenderer.SetPosition(0, starts.position);
@@ -121,11 +140,14 @@ public class HookLine : MonoBehaviour
     /// <summary>
     /// hook向后移动
     /// </summary>
-    public void HookBackMove() {
+    public void HookMoveBack() {
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
 
-    
+    /// <summary>
+    /// Hook是否撞击到了边界
+    /// </summary>
+    /// <returns></returns>
     bool HookCollisionBoundary() {
         float x = transform.position.x;
         float y = transform.position.y;
@@ -133,6 +155,31 @@ public class HookLine : MonoBehaviour
             || y <= GameMode.Instance.minY) {
                 return true;
             }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Hook是否回到了原点。是，修改moveSpeed = 0，销毁道具
+    /// </summary>
+    /// <returns></returns>
+    bool HookReturnToOrigin()
+    {
+        if (beHookedProps == null)
+        {
+            return false;
+        }
+
+        float distance = Vector3.Distance(transform.position, hookOrigin);
+        if (distance <= 0.2f)   
+        {
+
+            Destroy(beHookedProps.gameObject);
+
+            moveSpeed = 0;
+            return true;
+        }
+
 
         return false;
     }
