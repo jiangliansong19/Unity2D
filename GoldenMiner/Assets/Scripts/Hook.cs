@@ -21,7 +21,7 @@ public class Hook : MonoBehaviour
 
     public float rotateSpeed = 0.15f;//hook的摆动速度
 
-    public float moveSpeed = 2.5f;//hook的前进速度
+    public float moveSpeed = 30.0f;//hook的前进速度
 
     bool isFiring = false; //hook是否已经发出
 
@@ -29,13 +29,12 @@ public class Hook : MonoBehaviour
 
     PropsScript beHookedProps;//被勾住的道具
 
-    private void Awake() {
-        hookOrigin = transform.position;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
+        hookOrigin = transform.position;
+
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 1.1f;
     }
@@ -48,29 +47,33 @@ public class Hook : MonoBehaviour
         HookRotate();
 
         if (!isFiring && !isBacking) {
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
-                if (!isFiring && !isBacking) {
-                    isFiring = true;
-                    isBacking = false;
-                }
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                isFiring = true;
+                isBacking = false;
             }
         } else {
-            if (isFiring && !isBacking) {
+            if (isFiring && !isBacking)
+            {
                 HookMoveForward();
-            } else if (isFiring && isBacking) {
+            }
+            else if (isFiring && isBacking)
+            {
                 HookMoveBack();
             }
         }
 
-        if (HookCollisionBoundary() == true) {
+        if (HookCollisionBoundary() == true)
+        {
             isFiring = true;
             isBacking = true;
         }
 
-        if (HookReturnToOrigin() == true)
+        if (HookReturnToOrigin() == true && isBacking && isFiring)
         {
             isFiring = false;
             isBacking = false;
+            moveSpeed = 0;
         }
     }
 
@@ -134,6 +137,10 @@ public class Hook : MonoBehaviour
     /// hook向前移动
     /// </summary>
     public void HookMoveForward() {
+        if (moveSpeed == 0)
+        {
+            moveSpeed = 30.0f;
+        }
         transform.position += transform.up * -1 * moveSpeed * Time.deltaTime;
     }
 
@@ -141,6 +148,11 @@ public class Hook : MonoBehaviour
     /// hook向后移动
     /// </summary>
     public void HookMoveBack() {
+
+        if (beHookedProps != null)
+        {
+            moveSpeed /= beHookedProps.scaleLevel;
+        }
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
 
@@ -148,15 +160,15 @@ public class Hook : MonoBehaviour
     /// Hook是否撞击到了边界
     /// </summary>
     /// <returns></returns>
-    bool HookCollisionBoundary() {
+    bool HookCollisionBoundary()
+    {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (x <= GameMode.Instance.minX || x >= GameMode.Instance.maxX 
-            || y <= GameMode.Instance.minY) {
-                return true;
-            }
-
-        return false;
+        if (x > GameMode.Instance.minX && x < GameMode.Instance.maxX && y > GameMode.Instance.minY)
+        {
+            return false;
+        }
+        return true;
     }
 
     /// <summary>
@@ -165,22 +177,17 @@ public class Hook : MonoBehaviour
     /// <returns></returns>
     bool HookReturnToOrigin()
     {
-        if (beHookedProps == null)
+        float originalDistance = Vector3.Distance(hookOrigin, starts.position);
+        float distance = Vector3.Distance(transform.position, starts.position);
+
+        if (distance < originalDistance)   
         {
-            return false;
-        }
-
-        float distance = Vector3.Distance(transform.position, hookOrigin);
-        if (distance <= 0.2f)   
-        {
-
-            Destroy(beHookedProps.gameObject);
-
-            moveSpeed = 0;
+            if (beHookedProps != null)
+            {
+                Destroy(beHookedProps.gameObject);
+            }
             return true;
         }
-
-
         return false;
     }
 }
