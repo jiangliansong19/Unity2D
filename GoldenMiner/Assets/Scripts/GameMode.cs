@@ -21,6 +21,8 @@ public class GameMode: MonoBehaviour {
 
     public string[] propsNames; //特殊道具名称
 
+    public int[] timeSeconds; //游戏通关时间
+
     public float minX, maxX, minY, maxY; //挖矿的范围
 
     public float[] scaleData; //道具的缩放比例
@@ -31,7 +33,6 @@ public class GameMode: MonoBehaviour {
 
     public int gameLevel = 0; // 游戏关卡，默认为0
 
-
     private void Awake() {
 
         Instance = this;
@@ -41,6 +42,7 @@ public class GameMode: MonoBehaviour {
         propsNames = new string[] {"Explosive", "Potion"};
         scaleData = new float[] {1.0f, 1.2f, 1.5f, 1.8f, 2.0f};
         fractionDatas = new int[] {1000, 300, 500, 100, 150};
+        timeSeconds = new int[] { 30, 32, 33, 35 };
 
         templates = new Dictionary<string, GameObject>();
         levelObjs = new List<GameObject>();

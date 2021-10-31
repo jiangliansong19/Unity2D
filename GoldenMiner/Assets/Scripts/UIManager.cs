@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     private Text gameLevelText;
     private Text targetFractionText;
     private Text currentFractionText;
+    private Text timeText;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
         gameLevelText = transform.Find("TipsPanel/GameLevel").GetComponent<Text>();
         targetFractionText = transform.Find("TipsPanel/TargetFraction").GetComponent<Text>();
         currentFractionText = transform.Find("TipsPanel/CurrentFraction").GetComponent<Text>();
+        timeText = transform.Find("TipsPanel/TimeText").GetComponent<Text>();
         tipsPanel.SetActive(false);
     }
 
@@ -33,7 +35,8 @@ public class UIManager : MonoBehaviour
     void Update()
     {
 
-        updateGameLevel(GameMode.Instance.curFraction);
+        updateCurrentFraction(GameMode.Instance.curFraction);
+        updateTime(GameMode.Instance.timeSeconds[GameMode.Instance.gameLevel] - Time.deltaTime);
     }
 
     void StartPlayGame()
@@ -65,5 +68,10 @@ public class UIManager : MonoBehaviour
     public void updateGameLevel(int value)
     {
         gameLevelText.text = "关卡: " + value.ToString();
+    }
+
+    public void updateTime(float value)
+    {
+        timeText.text = "时间: " + ((int)value).ToString();
     }
 }

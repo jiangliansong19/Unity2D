@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7646891488612549812}
   - component: {fileID: 5134384046412201895}
   - component: {fileID: 3916535171405590984}
-  - component: {fileID: 5280446803126983739}
   m_Layer: 0
   m_Name: GoldOne
   m_TagString: Untagged
@@ -122,18 +121,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.255
---- !u!114 &5280446803126983739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776885312765424713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a6607d07927a4d36b52f86360d4fbec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fraction: 0
-  nowType: 0
-  scaleLevel: 1

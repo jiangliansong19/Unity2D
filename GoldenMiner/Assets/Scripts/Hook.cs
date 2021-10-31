@@ -21,7 +21,7 @@ public class Hook : MonoBehaviour
 
     public float rotateSpeed = 0.15f;//hook的摆动速度
 
-    public float moveSpeed = 30.0f;//hook的前进速度
+    public float moveSpeed = 45.0f;//hook的前进速度
 
     bool isFiring = false; //hook是否已经发出
 
@@ -145,7 +145,7 @@ public class Hook : MonoBehaviour
     public void HookMoveForward() {
         if (moveSpeed == 0)
         {
-            moveSpeed = 30.0f;
+            moveSpeed = 45.0f;
         }
         transform.position += transform.up * -1 * moveSpeed * Time.deltaTime;
     }
@@ -155,10 +155,6 @@ public class Hook : MonoBehaviour
     /// </summary>
     public void HookMoveBack() {
 
-        if (beHookedProps != null)
-        {
-            moveSpeed /= beHookedProps.scaleLevel;
-        }
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
 
