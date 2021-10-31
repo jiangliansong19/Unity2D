@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameMode: MonoBehaviour {
 
     public static GameMode Instance;
+
+    public bool isPlaying = false; //是否开始/暂停
 
     public Dictionary<string, GameObject> templates; //<名称：道具>
 
@@ -26,7 +29,7 @@ public class GameMode: MonoBehaviour {
 
     public bool isDouble = false; // 是否为双倍分
 
-    public int gameLevel; // 游戏关卡，默认为0
+    public int gameLevel = 0; // 游戏关卡，默认为0
 
 
     private void Awake() {
@@ -45,19 +48,29 @@ public class GameMode: MonoBehaviour {
 
     private void Start() {
 
-        foreach (string item in objNames)
-        {
-            GameObject obj = GetGameObjectWithPrefabName(item);
-            templates.Add(item, obj);
-        }
+        StartPlaying();
+    }
 
-        foreach (string item in propsNames) 
+    public void StartPlaying()
+    {
+        if (isPlaying)
         {
-            GameObject obj = GetGameObjectWithPrefabName(item);
-            templates.Add(item, obj);
-        }
+            foreach (string item in objNames)
+            {
+                GameObject obj = GetGameObjectWithPrefabName(item);
+                templates.Add(item, obj);
+            }
 
-        switchLevel();
+            foreach (string item in propsNames)
+            {
+                GameObject obj = GetGameObjectWithPrefabName(item);
+                templates.Add(item, obj);
+            }
+
+            switchLevel();
+
+
+        }
     }
 
     public void switchLevel() {
@@ -109,19 +122,21 @@ public class GameMode: MonoBehaviour {
 
     }
 
+
+
     /// <summary>
     /// 根据prefab的名称，创建分数道具
     /// </summary>
     /// <param name="name"></param>
     /// <returns>分数道具</returns>
-    public GameObject CreateRandomProps(string name) {
+    private GameObject CreateRandomProps(string name) {
         GameObject obj = templates[name];
         Vector3 tmpPoint = GetRandomPosition();
         GameObject tmpObj = Instantiate(obj, tmpPoint, Quaternion.identity);
         return tmpObj;
     }
 
-    public GameObject GetRandomSpecialProps() {
+    private GameObject GetRandomSpecialProps() {
         int randomIndex = Random.Range(0, 2);
         string name = propsNames[randomIndex];
         GameObject obj = templates[name];
@@ -135,7 +150,7 @@ public class GameMode: MonoBehaviour {
         return tmpPoint;
     }
 
-    public Quaternion GetRandomRotation() {
+    private Quaternion GetRandomRotation() {
         float angle = Random.Range(0, 360);
         Quaternion tmp = Quaternion.AngleAxis(angle, Vector3.forward);
         return tmp;
@@ -148,7 +163,7 @@ public class GameMode: MonoBehaviour {
         return scaleValue;
     }
 
-    public GameObject GetGameObjectWithPrefabName(string name) {
+    private GameObject GetGameObjectWithPrefabName(string name) {
         GameObject obj = Resources.Load<GameObject>("Prefabs/" + name);
         return obj;
     }

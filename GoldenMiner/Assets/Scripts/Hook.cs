@@ -29,6 +29,8 @@ public class Hook : MonoBehaviour
 
     PropsScript beHookedProps;//被勾住的道具
 
+    private AudioSource addFractionAudio;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,10 @@ public class Hook : MonoBehaviour
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 1.1f;
+
+        addFractionAudio = GetComponent<AudioSource>();
+        addFractionAudio.time = addFractionAudio.clip.length * 0.5f;
+
     }
 
     // Update is called once per frame
@@ -184,7 +190,10 @@ public class Hook : MonoBehaviour
         {
             if (beHookedProps != null)
             {
+                GameMode.Instance.curFraction += beHookedProps.fraction;
                 Destroy(beHookedProps.gameObject);
+                addFractionAudio.Play();
+                
             }
             return true;
         }
