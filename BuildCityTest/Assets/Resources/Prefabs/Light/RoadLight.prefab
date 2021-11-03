@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -5968752536981286365}
   - component: {fileID: 2678947935475601541}
   m_Layer: 0
-  m_Name: SL001_10
+  m_Name: RoadLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
