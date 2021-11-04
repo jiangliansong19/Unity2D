@@ -2,12 +2,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 专门用于建造，升级，销毁防御塔的类
+/// </summary>
 public class DefenserBuilder : MonoBehaviour
 {
+    public static DefenserBuilder Instance { private set; get; }
+    public Transform defenserPlaceholder;
+
     private DefenserListSO defenserList;
 
-    public Transform placeholder;
 
+
+    private Transform clickedGameObject;
+    private bool showUpdateAndDeleteButtons;
+    private bool showDefenserPanel;
+
+    /// <summary>
+    /// 点击屏幕，根据不同状态展示不同的按键。建造，升级，销毁。
+    /// </summary>
+    private void OnGUI()
+    {
+        if (showUpdateAndDeleteButtons && clickedGameObject)
+        {
+            Transform t = clickedGameObject;
+            DefenserData data = clickedGameObject.gameObject.GetComponent<DefenserData>();
+
+            Vector3 position = Camera.main.WorldToScreenPoint(clickedGameObject.position);
+
+            if (data.level < 3)
+            {
+                if (GUI.Button(new Rect(position.x, position.y + 70, 70, 30), "Update"))
+                {
+                    UpdateDefenserLevel();
+                }
+            }
+
+            if (GUI.Button(new Rect(position.x, position.y - 30, 70, 30), "Delete"))
+            {
+                DestroyDefenser();
+            }
+        }
+
+        if (showDefenserPanel && clickedGameObject)
+        {
+            Vector3 position = Camera.main.WorldToScreenPoint(clickedGameObject.position);
+            float width = defenserList.list.Count * 30;
+            GUILayout.BeginArea(new Rect(position.x - width/2, position.y - 70, width + 10, 40));
+            GUILayout.BeginHorizontal("box");
+            foreach (DefenserSO so in defenserList.list)
+            {
+                if (GUILayout.Button(so.image, GUILayout.Width(30), GUILayout.Height(30)))
+                {
+                    BuildDefenser(so, 0);
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+
+        }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,31 +82,71 @@ public class DefenserBuilder : MonoBehaviour
         {
             Vector3 position = GetWorldPointFromScreen();
             RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(position.x, position.y), Vector2.zero);
-            if (hits.Length == 1 && hits[0].collider.gameObject.tag == "placeholder") 
+            if (hits.Length == 1) 
             {
-                DisplayDefensersPanelAroundTransform(hits[0].collider.gameObject.transform);
+                clickedGameObject = hits[0].collider.gameObject.transform;
+                if (clickedGameObject.tag == "placeholder")
+                {
+                    showDefenserPanel = true;
+                }
+                else if (clickedGameObject.tag.StartsWith("defenser"))
+                {
+                    DisplayUpdateAndDestroyButton(gameObject.transform);
+                }
             }
         }
 
     }
 
     /// <summary>
-    /// 展示建造面板
+    /// 展示升级，销毁按键
     /// </summary>
-    /// <param name="position"></param>
-    private void DisplayDefensersPanelAroundTransform(Transform t)
+    /// <param name="t"></param>
+    private void DisplayUpdateAndDestroyButton(Transform t)
     {
-        DefenserSO defenser = defenserList.list[0];
-        Instantiate(defenser.levels[defenser.currentLevel].prefab, t.position, Quaternion.identity);
-        DestroyImmediate(t.gameObject);
+        showUpdateAndDeleteButtons = true;
     }
+
+    /// <summary>
+    /// 建造防御塔
+    /// </summary>
+    /// <param name="d"></param>
+    /// <param name="old"></param>
+    private void BuildDefenser(DefenserSO d, int level)
+    {
+        Transform prefab = d.prefabs[0];
+        Transform newObj = Instantiate(prefab, clickedGameObject.position, Quaternion.identity);
+        DestroyImmediate(clickedGameObject.gameObject);
+
+        DefenserManager.sharedManager.defenserInfos.Add(newObj, d);
+
+
+        
+        newObj.gameObject.GetComponent<Animator>().SetTrigger("fireShot");
+
+        clickedGameObject = null;
+        showDefenserPanel = false;
+    }
+
 
     /// <summary>
     /// 升级防御建筑
     /// </summary>
     /// <param name="d"></param>
-    private void UpdateDefenserLevel(DefenserSO d)
+    private void UpdateDefenserLevel()
     {
+        DefenserSO d = DefenserManager.sharedManager.defenserInfos[clickedGameObject];
+        DefenserData data = clickedGameObject.GetComponent<DefenserData>();
+        Transform prefab = d.prefabs[data.level + 1];
+        Transform newObj = Instantiate(prefab, clickedGameObject.position, Quaternion.identity);
+        newObj.gameObject.GetComponent<DefenserData>().level = data.level + 1;
+
+        DefenserManager.sharedManager.defenserInfos.Remove(clickedGameObject);
+        DefenserManager.sharedManager.defenserInfos.Add(newObj, d);
+
+        DestroyImmediate(clickedGameObject.gameObject);
+        showUpdateAndDeleteButtons = false;
+
 
     }
 
@@ -54,9 +154,15 @@ public class DefenserBuilder : MonoBehaviour
     /// 摧毁防御建筑
     /// </summary>
     /// <param name="d"></param>
-    private void DestroyDefenser(DefenserSO d)
+    private void DestroyDefenser()
     {
+        Instantiate(gameObject, clickedGameObject.position, Quaternion.identity);
 
+        DefenserManager.sharedManager.defenserInfos.Remove(clickedGameObject);
+
+        DestroyImmediate(clickedGameObject.gameObject);
+
+        showUpdateAndDeleteButtons = false;
     }
 
     private Vector3 GetWorldPointFromScreen()
@@ -65,4 +171,5 @@ public class DefenserBuilder : MonoBehaviour
         v.z = 0;
         return v;
     }
+
 }

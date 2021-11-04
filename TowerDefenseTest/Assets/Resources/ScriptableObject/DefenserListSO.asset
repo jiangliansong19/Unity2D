@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 960a4a83dd3d741e2a48a33b893e153d, type: 3}
   m_Name: DefenserListSO
   m_EditorClassIdentifier: Assembly-CSharp::DefenserListSO
-  list: []
+  list:
+  - {fileID: 11400000, guid: 8853d6daf15774daf8ed22e0c255fb18, type: 2}

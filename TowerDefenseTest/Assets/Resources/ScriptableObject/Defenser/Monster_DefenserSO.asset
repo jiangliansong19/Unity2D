@@ -13,20 +13,9 @@ MonoBehaviour:
   m_Name: Monster_DefenserSO
   m_EditorClassIdentifier: 
   defenserName: Monster
-  currentLevel: 0
-  levels:
-  - prefab: {fileID: 5139151431275329785, guid: 92b5ab80e6f484496b9372b3363bc20e, type: 3}
-    health: 100
-    physicalDamage: 0
-    magicDamage: 5
-    cost: 100
-  - prefab: {fileID: 493582, guid: f29d67ead1d3b481e815d39f2f51f446, type: 3}
-    health: 150
-    physicalDamage: 0
-    magicDamage: 7
-    cost: 180
-  - prefab: {fileID: 3001237533834765629, guid: e1f9826182d8549a2afb041259bd7276, type: 3}
-    health: 200
-    physicalDamage: 0
-    magicDamage: 10
-    cost: 300
+  type: 0
+  image: {fileID: 2800000, guid: 3355f8ce48f924622a4a125f169235a4, type: 3}
+  prefabs:
+  - {fileID: 5139151431275329785, guid: 92b5ab80e6f484496b9372b3363bc20e, type: 3}
+  - {fileID: 493582, guid: f29d67ead1d3b481e815d39f2f51f446, type: 3}
+  - {fileID: 3001237533834765629, guid: e1f9826182d8549a2afb041259bd7276, type: 3}
