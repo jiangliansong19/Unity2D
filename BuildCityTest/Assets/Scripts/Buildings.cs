@@ -8,6 +8,9 @@ public enum BuildingType
     House,
     Shop,
     Hall,
+    Road,
+    SuperMarket,
+    
 }
 
 
