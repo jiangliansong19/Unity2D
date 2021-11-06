@@ -9,19 +9,14 @@ public class BuildRoad : MonoBehaviour
     private GameObject prefab_horizontal;
     private GameObject prefab_vertical;
 
-    private void Start()
+    public void BuildRoads(Vector3 origin, Vector3 end)
     {
         BuildingTypeSO so = BuildingManager.Instance.activeBuildingTypeSO;
         prefab_horizontal = ((RoadTypeSO)so).partPrefabs[0].gameObject;
         prefab_vertical = ((RoadTypeSO)so).partPrefabs[1].gameObject;
         prefab_corner = ((RoadTypeSO)so).partPrefabs[2].gameObject;
         prefab_cross = ((RoadTypeSO)so).partPrefabs[3].gameObject;
-    
-    }
 
-
-    public void BuildRoads(Vector3 origin, Vector3 end)
-    {
         origin = new Vector3(Mathf.Round(origin.x), Mathf.Round(origin.y), 0);
         end = new Vector3(Mathf.Round(end.x), Mathf.Round(end.y), 0);
 
@@ -39,6 +34,7 @@ public class BuildRoad : MonoBehaviour
                 for (int i = (int)origin.x; i < end.x; i++)
                 {
                     BuildRoadItem(prefab_horizontal, position);
+                    print("buildRoads1 " + position.ToString());
                     position += new Vector3(1, 0, 0);
                 }
             }
@@ -49,6 +45,7 @@ public class BuildRoad : MonoBehaviour
                 for (int i = (int)origin.x; i > end.x; i--)
                 {
                     BuildRoadItem(prefab_horizontal, position);
+                    print("buildRoads2 " + position.ToString());
                     position -= new Vector3(1, 0, 0);
                 }
             }
@@ -64,6 +61,7 @@ public class BuildRoad : MonoBehaviour
                 for (int i = (int)origin.y; i < end.y; i++)
                 {
                     BuildRoadItem(prefab_vertical, position);
+                    print("buildRoads3 " + position.ToString());
                     position += new Vector3(0, 1, 0);
                 }
             }
@@ -72,6 +70,7 @@ public class BuildRoad : MonoBehaviour
                 for (int i = (int)origin.y; i > end.y; i--)
                 {
                     BuildRoadItem(prefab_vertical, position);
+                    print("buildRoads4 " + position.ToString());
                     position -= new Vector3(0, 1, 0);
                 }
             }
@@ -80,6 +79,8 @@ public class BuildRoad : MonoBehaviour
 
     public void BuildRoadItem(GameObject prefab, Vector3 position)
     {
+
+
         GameObject existObject = UtilsClass.GetObjectByRay(position);
         if (existObject == null)
         {

@@ -16,6 +16,8 @@ public class EnermyManager : MonoBehaviour
     private float maxTime = 3.0f;
     private float currentTime;
 
+    private int enermyCount;
+
     private void Awake()
     {
         shared = this;
@@ -42,6 +44,8 @@ public class EnermyManager : MonoBehaviour
 
     private void createEnermy()
     {
+        if (enermyCount >= 10) { return; }
         Transform obj = Instantiate(enermyList.list[0].prefab, new Vector3(-20.0f, 2.3f), Quaternion.identity);
+        enermyCount++;
     }
 }

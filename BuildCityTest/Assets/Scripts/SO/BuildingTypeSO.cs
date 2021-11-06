@@ -8,4 +8,6 @@ public class BuildingTypeSO : ScriptableObject
     public BuildingType type;//类型
     public string buildingName;//建筑名
     public Transform prefab;//UI模型
+
+    public BuildingData data;
 }

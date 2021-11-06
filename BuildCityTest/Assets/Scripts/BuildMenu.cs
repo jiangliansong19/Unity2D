@@ -90,11 +90,13 @@ public class BuildMenu : MonoBehaviour
                 {
                     buildRoadOrigin = UtilsClass.GetCurrentWorldPoint();
                     buildRoadEnd = Vector3.zero;
+                    print("touchFirst " + buildRoadOrigin.ToString());
                 }
                 else if (buildRoadOrigin != Vector3.zero && buildRoadEnd == Vector3.zero)
                 {
                     buildRoadEnd = UtilsClass.GetCurrentWorldPoint();
                     BuildingManager.Instance.BuildRoad(buildRoadOrigin, buildRoadEnd);
+                    print("touchEnd " + buildRoadEnd.ToString());
                 }
             }
             else

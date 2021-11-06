@@ -52,14 +52,19 @@ public class BuildingManager : MonoBehaviour
 
     public void BuildBuilding()
     {
+        BoxCollider2D collider = activeBuildingTypeSO.prefab.GetComponent<BoxCollider2D>();
+        Vector3 position = UtilsClass.GetCurrentWorldPoint();
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(position + (Vector3)collider.offset, collider.size, 0);
+        bool isAreaClear = colliders.Length == 0;
+        if (!isAreaClear)
+        {
+            return;
+        }
+
         Instantiate(this.activeBuildingTypeSO.prefab, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
     }
 
-    /// <summary>
-    /// 修路，起点到终点。有其他障碍物处无法修路
-    /// </summary>
-    /// <param name="origin"></param>
-    /// <param name="end"></param>
+    /// 修路，起点到终点
     public void BuildRoad(Vector3 origin, Vector3 end)
     {
         BuildRoad build = GameObject.FindObjectOfType<BuildRoad>();
@@ -69,7 +74,8 @@ public class BuildingManager : MonoBehaviour
 
     public void DestructBuilding(GameObject obj, Vector3 position)
     {
-
+        GameObject gameObj = UtilsClass.GetObjectByRay(position);
+        Destroy(gameObj);
     }
 
     public void UpdateBuilding(GameObject obj, Vector3 position)

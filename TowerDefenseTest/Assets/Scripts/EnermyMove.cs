@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class EnermyMove : MonoBehaviour
 {
     [HideInInspector] public Vector3[] wayPoints;
     [HideInInspector] public float moveSpeed;

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4001132038853033926
+--- !u!1 &6923188370538133844
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1499124627456905687}
-  - component: {fileID: 7862917709173938517}
-  - component: {fileID: -4569119762458693512}
-  - component: {fileID: 8762062471179260734}
+  - component: {fileID: 6923188370538133841}
+  - component: {fileID: 6923188370538133846}
+  - component: {fileID: 6923188370538133847}
+  - component: {fileID: -7620303737801252752}
+  - component: {fileID: 2690850301502402429}
   m_Layer: 0
-  m_Name: pfSales
+  m_Name: pfMonster0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1499124627456905687
+--- !u!4 &6923188370538133841
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4001132038853033926}
+  m_GameObject: {fileID: 6923188370538133844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 9.26, y: -3.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7862917709173938517
+--- !u!212 &6923188370538133846
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4001132038853033926}
+  m_GameObject: {fileID: 6923188370538133844}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -73,53 +74,64 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1601527161514656763, guid: 2529f58c0f0f4784d925363eac539680, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1063a9963851d468196a883078c8664e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.5625, y: 2}
+  m_Size: {x: 1.8, y: 2.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4569119762458693512
+--- !u!95 &6923188370538133847
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923188370538133844}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ef7849eece8d482c888c1c13d18d942, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-7620303737801252752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4001132038853033926}
+  m_GameObject: {fileID: 6923188370538133844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c95f398db3514ba7ababbb1a95cd4c1, type: 3}
+  m_Script: {fileID: 11500000, guid: b8d8fc5ec5fb64373af3a1615964f373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
---- !u!61 &8762062471179260734
-BoxCollider2D:
+  bullet1: {fileID: 4233699963943274396, guid: 1c161b11355ce4d259869508f0834266, type: 3}
+  bullet2: {fileID: 8942544107805403376, guid: a4e2baf4b3e8141c598015a650fea641, type: 3}
+  bullet3: {fileID: 2993926729671790846, guid: c4aa367510f64413e8d4c5f24afdc907, type: 3}
+--- !u!58 &2690850301502402429
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4001132038853033926}
+  m_GameObject: {fileID: 6923188370538133844}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 2}
-    newSize: {x: 1.5625, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5625, y: 2}
-  m_EdgeRadius: 0
+  m_Radius: 4
