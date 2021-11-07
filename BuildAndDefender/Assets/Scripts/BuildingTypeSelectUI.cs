@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class BuildingTypeSelectUI : MonoBehaviour
 {
+    private Dictionary<BuildingTypeSO, Transform> buildingTypeTransformDict;
     private BuildingTypeListSO buldingTypeList;
 
     private void Awake()
     {
+        buildingTypeTransformDict = new Dictionary<BuildingTypeSO, Transform>();
         buldingTypeList = Resources.Load<BuildingTypeListSO>(typeof(BuildingTypeListSO).Name);
 
         Transform template = transform.Find("BuildingTemplate");
@@ -30,6 +32,9 @@ public class BuildingTypeSelectUI : MonoBehaviour
                 BuildingManager.Instance.SetActiveBuildingType(so);
             });
 
+            buildingTypeTransformDict[so] = buildingTransform;
+
+
             index++;
         }
     }
@@ -44,5 +49,17 @@ public class BuildingTypeSelectUI : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void UpdateActiveBuilgdingTemplate(BuildingTypeSO so)
+    {
+        foreach (BuildingTypeSO typeSO in buildingTypeTransformDict.Keys)
+        {
+            Transform transform = buildingTypeTransformDict[typeSO];
+            transform.Find("selected").gameObject.SetActive(false);
+        }
+
+        BuildingTypeSO activieTypeSO = BuildingManager.Instance.GetActiveBuildingType();
+        buildingTypeTransformDict[activieTypeSO].Find("selected").gameObject.SetActive(true);
     }
 }

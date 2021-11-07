@@ -37,4 +37,9 @@ public class BuildingManager : MonoBehaviour
     {
         activeBuildingType = type;
     }
+
+    public BuildingTypeSO GetActiveBuildingType()
+    {
+        return activeBuildingType;
+    }
 }
