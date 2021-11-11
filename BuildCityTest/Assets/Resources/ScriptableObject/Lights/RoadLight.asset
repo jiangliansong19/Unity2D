@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: RoadLight
   m_EditorClassIdentifier: 
+  type: 0
   buildingName: RoadLight
   prefab: {fileID: 3201138529541993498, guid: 7175fe6e56c60c44c8a9ee462bdf43fa, type: 3}
-  constructCost: 2000
-  dayIncome: -30
+  data:
+    constructCost: 50
+    originIncomePerDay: 0
+    influenceRadius: 0

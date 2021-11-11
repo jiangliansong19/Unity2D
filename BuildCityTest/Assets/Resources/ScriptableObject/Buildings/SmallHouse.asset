@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: SmallHouse
   m_EditorClassIdentifier: 
+  type: 0
   buildingName: SmallHouse
   prefab: {fileID: 4780354459023443454, guid: bed859bbb1ed246bea779bc48eecb1cb, type: 3}
-  constructCost: 2000
-  dayIncome: 0
+  data:
+    constructCost: 1000
+    originIncomePerDay: 0
+    influenceRadius: 0

@@ -64,9 +64,7 @@ public class BuildMenu : MonoBehaviour
                 if (GUILayout.Button(new GUIContent(UtilsClass.GetTextureFromSprite(s1)), GUILayout.Width(secondLength), GUILayout.Height(secondLength)))
                 {
                     BuildingManager.Instance.buildState = BuildState.build;
-                   
-
-                    BuildingManager.Instance.activeBuildingTypeSO = so;
+                    BuildingManager.Instance.SetActiveBuildingTypeSO(so);
                 }
             }
 
@@ -80,10 +78,10 @@ public class BuildMenu : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) &&
             BuildingManager.Instance.buildState == BuildState.build &&
-            BuildingManager.Instance.activeBuildingTypeSO != null &&
+            BuildingManager.Instance.GetActiveBuildingTypeSO() != null &&
             !isTouchDownInPanel())
         {
-            if (BuildingManager.Instance.activeBuildingTypeSO.type == BuildingType.Road)
+            if (BuildingManager.Instance.GetActiveBuildingTypeSO().type == BuildingType.Road)
             {
                 if ((buildRoadOrigin == Vector3.zero && buildRoadEnd == Vector3.zero) ||
                     (buildRoadOrigin != Vector3.zero && buildRoadEnd != Vector3.zero))
@@ -110,7 +108,7 @@ public class BuildMenu : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             BuildingManager.Instance.buildState = BuildState.scan;
-            BuildingManager.Instance.activeBuildingTypeSO = null;
+            BuildingManager.Instance.SetActiveBuildingTypeSO(null);
 
             buildRoadOrigin = Vector3.zero;
             buildRoadEnd = Vector3.zero;

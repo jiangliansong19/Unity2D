@@ -11,14 +11,20 @@ public class BuildRoad : MonoBehaviour
 
     public void BuildRoads(Vector3 origin, Vector3 end)
     {
-        BuildingTypeSO so = BuildingManager.Instance.activeBuildingTypeSO;
+
+
+
+        BuildingTypeSO so = BuildingManager.Instance.GetActiveBuildingTypeSO();
         prefab_horizontal = ((RoadTypeSO)so).partPrefabs[0].gameObject;
         prefab_vertical = ((RoadTypeSO)so).partPrefabs[1].gameObject;
         prefab_corner = ((RoadTypeSO)so).partPrefabs[2].gameObject;
         prefab_cross = ((RoadTypeSO)so).partPrefabs[3].gameObject;
 
-        origin = new Vector3(Mathf.Round(origin.x), Mathf.Round(origin.y), 0);
-        end = new Vector3(Mathf.Round(end.x), Mathf.Round(end.y), 0);
+
+
+
+
+
 
         float distance_x = Mathf.Abs(origin.x - end.x);
         float distance_y = Mathf.Abs(origin.y - end.y);
@@ -26,72 +32,71 @@ public class BuildRoad : MonoBehaviour
         //水平建造
         if (distance_x > distance_y)
         {
-            Vector3 position = origin;
+            origin = new Vector3(Mathf.Round(origin.x), Mathf.Round(origin.y), 0);
+            end = new Vector3(Mathf.Round(end.x), Mathf.Round(origin.y), 0);
 
-            //从左往右 
-            if (origin.x < end.x)
-            {
-                for (int i = (int)origin.x; i < end.x; i++)
-                {
-                    BuildRoadItem(prefab_horizontal, position);
-                    print("buildRoads1 " + position.ToString());
-                    position += new Vector3(1, 0, 0);
-                }
-            }
+            SpriteRenderer renderer = prefab_horizontal.transform.GetComponent<SpriteRenderer>();
+            renderer.size = new Vector2(Mathf.Round(distance_x), 1);
 
-            //从右往左
-            else
+            BoxCollider2D collider = prefab_horizontal.transform.GetComponent<BoxCollider2D>();
+            collider.size = new Vector2(Mathf.Round(distance_x), 1);
+
+
+            
+
+
+            if (!HasBuildingCollidersOverlap(prefab_horizontal, origin, end))
             {
-                for (int i = (int)origin.x; i > end.x; i--)
-                {
-                    BuildRoadItem(prefab_horizontal, position);
-                    print("buildRoads2 " + position.ToString());
-                    position -= new Vector3(1, 0, 0);
-                }
+                Instantiate(prefab_horizontal, (origin + end) / 2, Quaternion.identity);
+
+                GameDataManager.Instance.totalMoney -= so.data.constructCost * Mathf.Round(distance_x);
+                GameDataManager.Instance.IncomePerDay += so.data.originIncomePerDay * Mathf.Round(distance_x);
             }
+            
+
+
+
 
         }
 
         //垂直建造
         else
         {
-            Vector3 position = origin;
-            if (origin.y < end.y)
+            origin = new Vector3(Mathf.Round(origin.x), Mathf.Round(origin.y), 0);
+            end = new Vector3(Mathf.Round(origin.x), Mathf.Round(end.y), 0);
+
+            SpriteRenderer renderer = prefab_vertical.transform.GetComponent<SpriteRenderer>();
+            renderer.size = new Vector2(1, Mathf.Round(distance_y));
+
+            BoxCollider2D collider = prefab_vertical.transform.GetComponent<BoxCollider2D>();
+            collider.size = new Vector2(1, Mathf.Round(distance_y));
+
+            if (!HasBuildingCollidersOverlap(prefab_vertical, origin, end))
             {
-                for (int i = (int)origin.y; i < end.y; i++)
-                {
-                    BuildRoadItem(prefab_vertical, position);
-                    print("buildRoads3 " + position.ToString());
-                    position += new Vector3(0, 1, 0);
-                }
-            }
-            else
-            {
-                for (int i = (int)origin.y; i > end.y; i--)
-                {
-                    BuildRoadItem(prefab_vertical, position);
-                    print("buildRoads4 " + position.ToString());
-                    position -= new Vector3(0, 1, 0);
-                }
+                Instantiate(prefab_vertical, (origin + end) / 2, Quaternion.identity);
+
+                GameDataManager.Instance.totalMoney -= so.data.constructCost * Mathf.Round(distance_x);
+                GameDataManager.Instance.IncomePerDay += so.data.originIncomePerDay * Mathf.Round(distance_x);
             }
         }
     }
 
-    public void BuildRoadItem(GameObject prefab, Vector3 position)
+    private bool HasBuildingCollidersOverlap(GameObject prefab, Vector3 origin, Vector3 end)
     {
-
-
-        GameObject existObject = UtilsClass.GetObjectByRay(position);
-        if (existObject == null)
+        BoxCollider2D collider = prefab.GetComponent<BoxCollider2D>();
+        Vector3 position = UtilsClass.GetCurrentWorldPoint();
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(position + (Vector3)collider.offset, collider.size, 0);
+        if (colliders.Length == 0)
         {
-            Instantiate(prefab, position, Quaternion.identity);
+            return false;
         }
-        else if (existObject.tag.StartsWith("Road"))
+        foreach (Collider2D co in colliders)
         {
-            Instantiate(prefab_cross, position, Quaternion.identity);
-            DestroyImmediate(existObject);
+            if (!co.gameObject.tag.StartsWith("Building"))
+            {
+                return false;
+            }
         }
+        return true;
     }
-
-
 }

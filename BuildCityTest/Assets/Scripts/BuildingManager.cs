@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,10 +22,18 @@ public class BuildingManager : MonoBehaviour
 
     [HideInInspector] public BuildState buildState = BuildState.scan;
 
-    [HideInInspector] public BuildingTypeSO activeBuildingTypeSO;
+    private BuildingTypeSO activeBuildingTypeSO;
 
     [HideInInspector] public Dictionary<BuildingTypeSO, GameObject> buildingInfoDict;
 
+    private GameObject BuildingInfoDialog;
+
+    public event EventHandler<OnActiveBuildingTypeChangedHandlerArgs> OnActiveBuildingTypeChangedHandler;
+
+    public class OnActiveBuildingTypeChangedHandlerArgs
+    {
+        public BuildingTypeSO Args_TypeSO;
+    }
 
     private void Awake()
     {
@@ -40,14 +49,40 @@ public class BuildingManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
+        if (buildState == BuildState.scan && Input.GetMouseButtonDown(0))
+        {
+            ScanBuilding();
+        }
     }
 
-
-    public void ScanBuilding(GameObject obj, Vector3 position)
+    public void SetActiveBuildingTypeSO(BuildingTypeSO typeSO)
     {
+        activeBuildingTypeSO = typeSO;
+        OnActiveBuildingTypeChangedHandler?.Invoke(this, new OnActiveBuildingTypeChangedHandlerArgs
+        {
+            Args_TypeSO = activeBuildingTypeSO
+        });
 
+        if (typeSO == null)
+        {
+            buildState = BuildState.scan;
+        }
+    }
+
+    public BuildingTypeSO GetActiveBuildingTypeSO()
+    {
+        return activeBuildingTypeSO;
+    }
+
+    public void ScanBuilding()
+    {
+        Vector3 position = UtilsClass.GetCurrentWorldPoint();
+        GameObject obj = UtilsClass.GetObjectByRay(position);
+        if (obj != null && obj.tag.StartsWith("Building"))
+        {
+            ShowBuildingInfoDialog(obj, position);
+        }
     }
 
     public void BuildBuilding()
@@ -61,7 +96,18 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        Instantiate(this.activeBuildingTypeSO.prefab, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+        Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+
+        //受到道路影响，建筑辐射面积增加
+        float radio = 1.0f;
+
+        //计算建筑辐射范围内，受到的收入增幅是多少
+        float income = activeBuildingTypeSO.data.originIncomePerDay * radio;
+
+
+        //游戏总数据，资金减少，日收入增加
+        GameDataManager.Instance.totalMoney -= activeBuildingTypeSO.data.constructCost;
+        GameDataManager.Instance.IncomePerDay += income;
     }
 
     /// 修路，起点到终点
@@ -81,6 +127,24 @@ public class BuildingManager : MonoBehaviour
     public void UpdateBuilding(GameObject obj, Vector3 position)
     {
 
+    }
+
+
+    public void ShowBuildingInfoDialog(GameObject building, Vector3 position)
+    {
+        if (BuildingInfoDialog == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/Others/BuildingInfoDialog").gameObject;
+            BuildingInfoDialog = Instantiate(prefab, position, Quaternion.identity);
+        }
+        else
+        {
+            BuildingInfoDialog.transform.position = position;
+        }
+
+        BuildingInfoDialog.GetComponent<SpriteRenderer>().sortingOrder = building.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        BuildingRunData data = building.GetComponent<BuildingRunData>();
+        BuildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
     }
 
 }
