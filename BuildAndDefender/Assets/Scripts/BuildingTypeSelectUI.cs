@@ -9,6 +9,7 @@ public class BuildingTypeSelectUI : MonoBehaviour
     private BuildingTypeListSO buldingTypeList;
     private Transform arrowButton;
     [SerializeField] private Sprite arrowSprite;
+    [SerializeField] private List<BuildingTypeSO> ignoredList;
 
     private void Awake()
     {
@@ -37,6 +38,10 @@ public class BuildingTypeSelectUI : MonoBehaviour
 
         foreach (BuildingTypeSO so in buldingTypeList.list)
         {
+            if (ignoredList.Contains(so))
+            {
+                continue;
+            }
             Transform buildingTransform = Instantiate(template, transform);
             buildingTransform.gameObject.SetActive(true);
 

@@ -25,10 +25,6 @@ public class ResourceGeneratorOverlay : MonoBehaviour
 
         TextMeshPro textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
         textMeshPro.SetText(resourceGenerator.GetAmountGeneratorPerSecond().ToString("F1"));
-
-        MeshRenderer renderer = textMeshPro.GetComponent<MeshRenderer>();
-        renderer.sortingLayerName = "Top";
-        renderer.sortingOrder = 10;
     }
 
     // Update is called once per frame

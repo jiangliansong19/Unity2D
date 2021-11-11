@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 1776746367916150893}
   - component: {fileID: -836039709296558035}
   - component: {fileID: 4341997090875632975}
+  - component: {fileID: -5800791668053399083}
   m_Layer: 0
   m_Name: pfStoneHarvester
   m_TagString: Untagged
@@ -197,6 +198,7 @@ Transform:
   - {fileID: 8634994326849113044}
   - {fileID: 8018658057364319261}
   - {fileID: 1459381572101526677}
+  - {fileID: 2028335206625060286}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -276,6 +278,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: {fileID: 11400000, guid: 748990b1dc3b87b4dbfec8b8a1f11ad4, type: 2}
+--- !u!61 &-5800791668053399083
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090529771822804494}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.8057113, y: 5.3535156}
+    newSize: {x: 6.8057113, y: 5.3535156}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.8057113, y: 5.3535156}
+  m_EdgeRadius: 0
 --- !u!1 &6924807777256960541
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,3 +386,69 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &6627607429605194824
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1541270504100203385}
+    m_Modifications:
+    - target: {fileID: -8307406859273066369, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: resourceGenerator
+      value: 
+      objectReference: {fileID: -836039709296558035}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179110743858305527, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+      propertyPath: m_Name
+      value: pfResourceGeneratorOverlay
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+--- !u!4 &2028335206625060286 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5179110743858305526, guid: b9b32e729e54b3a428a6988c45205925, type: 3}
+  m_PrefabInstance: {fileID: 6627607429605194824}
+  m_PrefabAsset: {fileID: 0}
