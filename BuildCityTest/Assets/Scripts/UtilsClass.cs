@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class UtilsClass
 {
+    //screen point convert to world point
     public static Vector3 GetCurrentWorldPoint()
     {
         Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -11,6 +12,7 @@ public static class UtilsClass
         return point;
     }
 
+    //sprite convert to Texture
     public static Texture GetTextureFromSprite(Sprite sprite)
     {
         Texture2D croppedTexture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
@@ -39,11 +41,20 @@ public static class UtilsClass
         return null;
     }
 
-    //public static Vector2 GetUGUIFromWorlPoint(Vector3 v)
-    //{
-    //    Vector2 screenPoint = Camera.main.WorldToScreenPoint(v);
-    //    Vector2 screenSize = new Vector2(Screen.width, Screen.height);
-    //    screenPoint -= screenSize / 2;
-    //    Vector2 anchorPosition = screenPoint / screenSize * 
-    //}
+    public static GameObject[] GetObjectByRay2D(Vector2 start, Vector2 end)
+    {
+        RaycastHit2D[] objs = Physics2D.RaycastAll(start, end - start, (end - start).sqrMagnitude);
+        if (objs != null && objs.Length > 0)
+        {
+            GameObject[] list = new GameObject[objs.Length];
+            int index = 0;
+            foreach (RaycastHit2D item in objs)
+            {
+                list[index] = item.collider.gameObject;
+                index++;
+            }
+            return list;
+        }
+        return null;
+    }
 }

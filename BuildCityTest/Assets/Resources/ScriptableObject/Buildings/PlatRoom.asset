@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: PlatRoom
   m_EditorClassIdentifier: 
+  type: 0
   buildingName: PlatRoom
   prefab: {fileID: 5276703591723639637, guid: a7a018567498e9447a9048ef34dbee82, type: 3}
-  constructCost: 100000
-  dayIncome: 1000
+  data:
+    constructCost: 10000
+    originIncomePerDay: 0
+    influenceRadius: 0

@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5276703591723639639}
   - component: {fileID: -2929942190075030648}
   - component: {fileID: 7681257743291630743}
+  - component: {fileID: -904331357251482236}
   m_Layer: 0
   m_Name: pfPlatRoom
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,3 +144,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 6}
   m_EdgeRadius: 0
+--- !u!114 &-904331357251482236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276703591723639638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a54018ad90784387b2c261922678f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incomePerDay: 0
+  influenceRadius: 0
+  incomeCorrectRadio: 0
+  influenceCorrctRadio: 0

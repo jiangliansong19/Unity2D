@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class GameMouse : MonoBehaviour
 {
-    private Sprite private_mousePrite;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        private_mousePrite = GetComponent<SpriteRenderer>().sprite;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        BuildingManager.Instance.OnActiveBuildingTypeChangedHandler += BuildingManager_OnActiveBuildingTypeChangedHandler;
+    }
+
     private void Update()
     {
-        this.transform.position = UtilsClass.GetCurrentWorldPoint();
+        transform.position = UtilsClass.GetCurrentWorldPoint();
+    }
 
-        if (BuildingManager.Instance.activeBuildingTypeSO != null &&
-            BuildingManager.Instance.buildState == BuildState.build)
+    private void BuildingManager_OnActiveBuildingTypeChangedHandler(object sender, BuildingManager.OnActiveBuildingTypeChangedHandlerArgs e)
+    {
+        if (e != null)
         {
-            Sprite s = BuildingManager.Instance.activeBuildingTypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
-            GetComponent<SpriteRenderer>().sprite = s;
-            GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
+            spriteRenderer.sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
         }
         else
         {
-            GetComponent<SpriteRenderer>().sprite = private_mousePrite;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            spriteRenderer.sprite = null;
+            spriteRenderer.color = new Color(1, 1, 1, 1.0f);
         }
     }
 }

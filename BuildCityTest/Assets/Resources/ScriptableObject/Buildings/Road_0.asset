@@ -15,6 +15,10 @@ MonoBehaviour:
   type: 3
   buildingName: Road
   prefab: {fileID: 6503498100847611855, guid: e4d35f21670e040c98f33b510055c327, type: 3}
+  data:
+    constructCost: 500
+    originIncomePerDay: -5
+    influenceRadius: 0
   partPrefabs:
   - {fileID: 4896001546499537300, guid: 84712aa97bcf944199166b3cb0c50821, type: 3}
   - {fileID: 6503498100847611855, guid: e4d35f21670e040c98f33b510055c327, type: 3}

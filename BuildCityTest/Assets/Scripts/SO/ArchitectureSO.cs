@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//建筑类型：房屋，路灯
 [CreateAssetMenu(fileName = "ScriptableObject/Architecture")]
 public class ArchitectureSO : ScriptableObject
 {

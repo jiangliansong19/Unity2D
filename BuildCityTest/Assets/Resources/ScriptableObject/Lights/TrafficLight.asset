@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: TrafficLight
   m_EditorClassIdentifier: 
+  type: 0
   buildingName: TrafficLight
   prefab: {fileID: 783501789319942010, guid: c2bd7604de1e4774cabe40e7de088fd2, type: 3}
-  constructCost: 5000
-  dayIncome: -100
+  data:
+    constructCost: 1000
+    originIncomePerDay: 0
+    influenceRadius: 0
