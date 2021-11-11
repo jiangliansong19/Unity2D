@@ -19,6 +19,7 @@ public class ResourceGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //检测范围内的资源
         Collider2D[] collider2DArray = Physics2D.OverlapCircleAll(transform.position, resourceGeneratorData.resourceDetectionRadius);
 
         int nearByResourAmount = 0;

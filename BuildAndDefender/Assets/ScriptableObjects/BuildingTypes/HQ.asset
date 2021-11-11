@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ad1bf7afad45bb4e94fae59d98e0e20, type: 3}
-  m_Name: WoodHarverster
+  m_Name: HQ
   m_EditorClassIdentifier: 
-  nameString: Wood
-  prefab: {fileID: 1510475629895211541, guid: ae301bbd410680e4682a11415c1878e4, type: 3}
+  nameString: 
+  prefab: {fileID: 4259320979863021688, guid: 243a8fe668bddec4bb5a4b6fb6e1f670, type: 3}
   resourceGeneratorData:
     timerMax: 0.5
     resourceType: {fileID: 11400000, guid: 88cc5b744ef103249b540dc731b7d74a, type: 2}
-    resourceDetectionRadius: 7
-    maxResourceAmount: 7
-  minConstructionRadius: 5
-  sprite: {fileID: 21300000, guid: 7ce33c0b3ba0a2246a8acbb3b4761ee7, type: 3}
+    resourceDetectionRadius: 1
+    maxResourceAmount: 10
+  minConstructionRadius: 1
+  sprite: {fileID: 21300000, guid: 7030b8e3eb49e8440ae8eb3ec8b45d05, type: 3}

@@ -22,7 +22,13 @@ public class ResourceGeneratorOverlay : MonoBehaviour
         barTransform = transform.Find("Bar");
 
         transform.Find("Icon").GetComponent<SpriteRenderer>().sprite = resourceGeneratorData.resourceType.sprite;
-        transform.Find("Text").GetComponent<TextMeshPro>().SetText(resourceGenerator.GetAmountGeneratorPerSecond().ToString("F1"));
+
+        TextMeshPro textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
+        textMeshPro.SetText(resourceGenerator.GetAmountGeneratorPerSecond().ToString("F1"));
+
+        MeshRenderer renderer = textMeshPro.GetComponent<MeshRenderer>();
+        renderer.sortingLayerName = "Top";
+        renderer.sortingOrder = 10;
     }
 
     // Update is called once per frame

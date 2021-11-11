@@ -11,5 +11,6 @@ public class BuildingTypeSO : ScriptableObject
 
     public ResourceGeneratorData resourceGeneratorData;
 
+    public float minConstructionRadius;
     public Sprite sprite;
 }
