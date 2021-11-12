@@ -47,7 +47,27 @@ public class ResourceManager : MonoBehaviour
     {
         resourceAmountDictionary[so] += count;
         OnResourceAmountChanged?.Invoke(this, EventArgs.Empty);
-        Debug.Log(so.nameString + " resource count = " + resourceAmountDictionary[so].ToString());
+        //Debug.Log(so.nameString + " resource count = " + resourceAmountDictionary[so].ToString());
+    }
+
+    public void SpendResources(ResourceAmount[] resourceAmounts)
+    {
+        foreach (ResourceAmount item in resourceAmounts)
+        {
+            resourceAmountDictionary[item.resourceType] -= item.amount;
+        }
+    }
+
+    public bool CanAffordResources(ResourceAmount[] resourceAmounts)
+    {
+        foreach (ResourceAmount item in resourceAmounts)
+        {
+            if (resourceAmountDictionary[item.resourceType] < item.amount)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int getResourceAmount(ResourceTypeSO so)

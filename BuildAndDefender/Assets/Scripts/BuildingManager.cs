@@ -34,15 +34,28 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) &&
-            !EventSystem.current.IsPointerOverGameObject() &&
-            activeBuildingType != null)
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (CanSetUpBuilding(activeBuildingType, UtilClass.GetMouseWorldPoint()))
+            if (activeBuildingType != null)
             {
-                Instantiate(activeBuildingType.prefab, UtilClass.GetMouseWorldPoint(), Quaternion.identity);
+                if (CanSpawnBuilding(activeBuildingType, UtilClass.GetMouseWorldPoint(), out string errorMessage))
+                {
+                    if (ResourceManager.Instance.CanAffordResources(activeBuildingType.constructionResourceCostArray))
+                    {
+                        ResourceManager.Instance.SpendResources(activeBuildingType.constructionResourceCostArray);
+                        Instantiate(activeBuildingType.prefab, UtilClass.GetMouseWorldPoint(), Quaternion.identity);
+                    } 
+                    else
+                    {
+                        ToolTipsUI.Instance.Show("Can not afford resources:\n" + activeBuildingType.GetConstructionResourceCostString(), 
+                            new ToolTipsUI.ToolTipsUITimer { timer = 2f });
+                    }
+                }
+                else
+                {
+                    ToolTipsUI.Instance.Show(errorMessage, new ToolTipsUI.ToolTipsUITimer { timer = 2f });
+                }
             }
-            
         }
     }
 
@@ -60,13 +73,14 @@ public class BuildingManager : MonoBehaviour
         return activeBuildingType;
     }
 
-    public bool CanSetUpBuilding(BuildingTypeSO typeSO, Vector3 position)
+    public bool CanSpawnBuilding(BuildingTypeSO typeSO, Vector3 position, out string errorMessage)
     {
         //建筑重叠，不允许建造
         BoxCollider2D boxCollider2D = typeSO.prefab.GetComponent<BoxCollider2D>();
         Collider2D[] boxColliders = Physics2D.OverlapBoxAll(position + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
         if (boxColliders != null && boxColliders.Length > 0)
         {
+            errorMessage = "Place is not clear!";
             return false;
         }
 
@@ -77,22 +91,25 @@ public class BuildingManager : MonoBehaviour
             BuildingTypeHolder holder = item.GetComponent<BuildingTypeHolder>();
             if (holder != null && holder.type == typeSO)
             {
+                errorMessage = "Too closer to another with same type!";
                 return false;
             }
         }
 
         //建筑间距25以内没有其它建筑，则不允许建造
-        float maxConstructionRadius = 25;
-        circleColliders = Physics2D.OverlapCircleAll(position.normalized, maxConstructionRadius);
+        float maxConstructionRadius = 50;
+        circleColliders = Physics2D.OverlapCircleAll(position, maxConstructionRadius);
         foreach (Collider2D item in circleColliders)
         {
             BuildingTypeHolder holder = item.GetComponent<BuildingTypeHolder>();
             if (holder != null)
             {
+                errorMessage = "";
                 return true;
             }
         }
 
+        errorMessage = "Too far from antoher building!";
         return false;
     }
 }

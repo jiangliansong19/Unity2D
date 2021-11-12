@@ -33,6 +33,19 @@ public class BuildingTypeSelectUI : MonoBehaviour
             BuildingManager.Instance.SetActiveBuildingType(null);
         });
 
+        arrowButton.GetComponent<MouseEnterExits>().OnMouseEnter += (object sender, System.EventArgs e) =>
+        {
+            Debug.Log("mouse enter on arrow button");
+
+            ToolTipsUI.Instance.Show("Arrow");
+        };
+        arrowButton.GetComponent<MouseEnterExits>().OnMouseExit += (object sender, System.EventArgs e) =>
+        {
+            Debug.Log("mouse exit on arrow button");
+            ToolTipsUI.Instance.Hide();
+        };
+
+
         index++;
 
 
@@ -53,6 +66,16 @@ public class BuildingTypeSelectUI : MonoBehaviour
             {
                 BuildingManager.Instance.SetActiveBuildingType(so);
             });
+
+            buildingTransform.GetComponent<MouseEnterExits>().OnMouseEnter += (object sender, System.EventArgs e) =>
+            {
+                ToolTipsUI.Instance.Show(so.nameString + "\n" + so.GetConstructionResourceCostString());
+            };
+
+            buildingTransform.GetComponent<MouseEnterExits>().OnMouseExit += (object sender, System.EventArgs e) =>
+            {
+                ToolTipsUI.Instance.Hide();
+            };
 
             buildingTypeTransformDict[so] = buildingTransform;
 
