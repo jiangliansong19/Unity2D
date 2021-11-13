@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad1bf7afad45bb4e94fae59d98e0e20, type: 3}
+  m_Name: ArrowTowerDefender
+  m_EditorClassIdentifier: 
+  nameString: ArrowTowerDefender
+  prefab: {fileID: 5559363695222338247, guid: 68ac61a22423bec4c84d03e536a8bd0a, type: 3}
+  resourceGeneratorData:
+    timerMax: 0
+    resourceType: {fileID: 0}
+    resourceDetectionRadius: 0
+    maxResourceAmount: 0
+  minConstructionRadius: 5
+  sprite: {fileID: 21300000, guid: 3a549cd61f4d79e4b996c9978dac641f, type: 3}
+  constructionResourceCostArray:
+  - resourceType: {fileID: 11400000, guid: 88cc5b744ef103249b540dc731b7d74a, type: 2}
+    amount: 30
+  - resourceType: {fileID: 11400000, guid: 6acbf716473cf5442aecaa45c0728b69, type: 2}
+    amount: 15
+  defenderData:
+    defenderRadius: 30
+    damage: 10
+    attackTimeMax: 1
+  health: 100

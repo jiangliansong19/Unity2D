@@ -16,6 +16,10 @@ public class BuildingTypeSO : ScriptableObject
 
     public ResourceAmount[] constructionResourceCostArray;
 
+    public DefenderData defenderData;
+
+    public int health;
+
     public string GetConstructionResourceCostString()
     {
         string str = "";

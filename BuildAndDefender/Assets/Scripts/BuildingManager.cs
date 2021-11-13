@@ -55,7 +55,14 @@ public class BuildingManager : MonoBehaviour
                 {
                     ToolTipsUI.Instance.Show(errorMessage, new ToolTipsUI.ToolTipsUITimer { timer = 2f });
                 }
+            } 
+            else
+            {
+                Transform enermy = Resources.Load<Transform>("pfEnermy");
+                Instantiate(enermy, UtilClass.GetMouseWorldPoint(), Quaternion.identity);
             }
+
+
         }
     }
 
