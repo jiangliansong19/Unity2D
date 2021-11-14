@@ -11,7 +11,9 @@ public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnDieHandler;
     public event EventHandler<EventHandlerOnDamaneArgs> OnDamageHandler;
-
+    public event EventHandler OnHealHandler;
+    public event EventHandler OnHealFullHandler;
+ 
     public class EventHandlerOnDamaneArgs: EventArgs
     {
         public int damageAmount;
@@ -45,7 +47,6 @@ public class HealthSystem : MonoBehaviour
         if (health <= 0)
         {
             OnDieHandler?.Invoke(this, EventArgs.Empty);
-            Destroy(gameObject);
         }
 
         if (healthBar != null)
@@ -70,4 +71,22 @@ public class HealthSystem : MonoBehaviour
         }
         return health;
     }
+
+    public int GetHealthAmountMax()
+    {
+        return healthMax;
+    }
+
+    public int GetHealthAmount()
+    {
+        return health;
+    }
+
+    public void HealFull()
+    {
+        health = healthMax;
+        OnHealFullHandler?.Invoke(this, EventArgs.Empty);
+    }
+
+
 }

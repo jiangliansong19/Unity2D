@@ -10,7 +10,7 @@ public class ResourceManager : MonoBehaviour
 
     public event EventHandler OnResourceAmountChanged;
 
-    public ResourceTypeListSO resourceTypeListSO;
+    private ResourceTypeListSO resourceTypeListSO;
     private Dictionary<ResourceTypeSO, int> resourceAmountDictionary;
 
     private void Awake()
@@ -47,7 +47,15 @@ public class ResourceManager : MonoBehaviour
     {
         resourceAmountDictionary[so] += count;
         OnResourceAmountChanged?.Invoke(this, EventArgs.Empty);
-        //Debug.Log(so.nameString + " resource count = " + resourceAmountDictionary[so].ToString());
+    }
+
+    public void AddResourcesAmount(ResourceAmount[] resourcesAmounts) 
+    {
+        foreach (ResourceAmount item in resourcesAmounts)
+        {
+            resourceAmountDictionary[item.resourceType] += item.amount;
+        }
+        OnResourceAmountChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void SpendResources(ResourceAmount[] resourceAmounts)
@@ -70,7 +78,7 @@ public class ResourceManager : MonoBehaviour
         return true;
     }
 
-    public int getResourceAmount(ResourceTypeSO so)
+    public int GetResourceTypeAmount(ResourceTypeSO so)
     {
         return resourceAmountDictionary[so];
     }

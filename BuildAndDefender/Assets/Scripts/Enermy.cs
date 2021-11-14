@@ -46,7 +46,7 @@ public class Enermy : MonoBehaviour
         {
             rigidBody2D.velocity = Vector2.zero;
         }
-
+        transform.rotation = Quaternion.identity;
 
         searchTimer -= Time.deltaTime;
         if (searchTimer <= 0)
@@ -93,6 +93,8 @@ public class Enermy : MonoBehaviour
         {
             HealthSystem healthSystem = holder.GetComponent<HealthSystem>();
             healthSystem.DoDamage(this.enermyDamageAmount);
+
+            SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDamaged);
 
             Destroy(gameObject);
         }

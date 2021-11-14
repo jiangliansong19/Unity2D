@@ -23,7 +23,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 7030b8e3eb49e8440ae8eb3ec8b45d05, type: 3}
   constructionResourceCostArray: []
   defenderData:
-    defenderRadius: 30
+    defenderRadius: 40
     damage: 15
     attackTimeMax: 1
   health: 100

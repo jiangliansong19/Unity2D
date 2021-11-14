@@ -24,3 +24,8 @@ MonoBehaviour:
   constructionResourceCostArray:
   - resourceType: {fileID: 11400000, guid: 88cc5b744ef103249b540dc731b7d74a, type: 2}
     amount: 50
+  defenderData:
+    defenderRadius: 0
+    damage: 0
+    attackTimeMax: 0
+  health: 100

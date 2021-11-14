@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 显示游戏资源数量
+/// </summary>
 public class ResourceUI : MonoBehaviour
 {
     private ResourceTypeListSO resourceTypeList;
@@ -58,7 +61,7 @@ public class ResourceUI : MonoBehaviour
         {
             Transform resourceTransform = resourceTypeTransfromDict[so];
 
-            int resourceAmount = ResourceManager.Instance.getResourceAmount(so);
+            int resourceAmount = ResourceManager.Instance.GetResourceTypeAmount(so);
             resourceTransform.Find("Text").GetComponent<TextMeshProUGUI>().SetText(resourceAmount.ToString());
         }
     }

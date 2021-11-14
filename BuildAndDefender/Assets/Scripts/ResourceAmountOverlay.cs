@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 建造建筑时，显示建筑效率
+/// 建造建筑时，显示建筑生产效率
 /// </summary>
 public class ResourceAmountOverlay : MonoBehaviour
 {
@@ -19,8 +19,9 @@ public class ResourceAmountOverlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //只有资源生产建筑，才会显示生产效率
         BuildingTypeSO buildingType = BuildingManager.Instance.GetActiveBuildingType();
-        if (buildingType != null)
+        if (buildingType.resourceGeneratorData.resourceType != null)
         {
             detectTimer -= Time.deltaTime;
             if (detectTimer <= 0)
@@ -42,7 +43,8 @@ public class ResourceAmountOverlay : MonoBehaviour
         int amount = 0;
         foreach (Collider2D item in colliders)
         {
-            if (item.gameObject.GetComponent<ResourceNode>() != null)
+            ResourceNode node = item.gameObject.GetComponent<ResourceNode>();
+            if (node != null && node.resourceType == typeSO.resourceGeneratorData.resourceType)
             {
                 amount++;
             }

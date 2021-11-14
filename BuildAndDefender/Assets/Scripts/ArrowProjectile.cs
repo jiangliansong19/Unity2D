@@ -47,6 +47,10 @@ public class ArrowProjectile : MonoBehaviour
 
             transform.position += moveDir * Time.deltaTime * moveSpeed;
             transform.eulerAngles = new Vector3(0, 0, deg);
+        } 
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

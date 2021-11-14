@@ -44,6 +44,7 @@ public class BuildingManager : MonoBehaviour
                     {
                         ResourceManager.Instance.SpendResources(activeBuildingType.constructionResourceCostArray);
                         Instantiate(activeBuildingType.prefab, UtilClass.GetMouseWorldPoint(), Quaternion.identity);
+                        SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingPlaced);
                     } 
                     else
                     {

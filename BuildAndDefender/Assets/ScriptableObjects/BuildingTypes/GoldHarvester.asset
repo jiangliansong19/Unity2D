@@ -26,3 +26,8 @@ MonoBehaviour:
     amount: 50
   - resourceType: {fileID: 11400000, guid: 6acbf716473cf5442aecaa45c0728b69, type: 2}
     amount: 30
+  defenderData:
+    defenderRadius: 0
+    damage: 0
+    attackTimeMax: 0
+  health: 100
