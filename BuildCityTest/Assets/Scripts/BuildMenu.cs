@@ -73,53 +73,7 @@ public class BuildMenu : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) &&
-            BuildingManager.Instance.buildState == BuildState.build &&
-            BuildingManager.Instance.GetActiveBuildingTypeSO() != null &&
-            !isTouchDownInPanel())
-        {
-            if (BuildingManager.Instance.GetActiveBuildingTypeSO().type == BuildingType.Road)
-            {
-                if ((buildRoadOrigin == Vector3.zero && buildRoadEnd == Vector3.zero) ||
-                    (buildRoadOrigin != Vector3.zero && buildRoadEnd != Vector3.zero))
-                {
-                    buildRoadOrigin = UtilsClass.GetCurrentWorldPoint();
-                    buildRoadEnd = Vector3.zero;
-                    print("touchFirst " + buildRoadOrigin.ToString());
-                }
-                else if (buildRoadOrigin != Vector3.zero && buildRoadEnd == Vector3.zero)
-                {
-                    buildRoadEnd = UtilsClass.GetCurrentWorldPoint();
-                    BuildingManager.Instance.BuildRoad(buildRoadOrigin, buildRoadEnd);
-                    print("touchEnd " + buildRoadEnd.ToString());
-                }
-            }
-            else
-            {
-                BuildingManager.Instance.BuildBuilding();
-
-            }
-        }
-
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            BuildingManager.Instance.buildState = BuildState.scan;
-            BuildingManager.Instance.SetActiveBuildingTypeSO(null);
-
-            buildRoadOrigin = Vector3.zero;
-            buildRoadEnd = Vector3.zero;
-        }
-
-
-
-
-    }
-
-    private bool isTouchDownInPanel()
+    public bool isTouchDownInPanel()
     {
         return UtilsClass.isTouchPointInScreenRect(buildPanelRect1) ||
                UtilsClass.isTouchPointInScreenRect(buildPanelRect2);

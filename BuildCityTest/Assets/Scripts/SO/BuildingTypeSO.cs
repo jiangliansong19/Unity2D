@@ -13,6 +13,16 @@ public enum BuildingType
 
 }
 
+[System.Serializable]
+public class BuildingTypeDefaultData
+{
+    public int constructCost;//建造费用
+    public int originIncomePerDay;//每日收支
+
+    public int influenceRadius;//建筑辐射半径
+}
+
+
 
 [CreateAssetMenu(fileName = "ScriptableObject/Buildings/BuildingTypeSO")]
 public class BuildingTypeSO : ScriptableObject
@@ -21,15 +31,5 @@ public class BuildingTypeSO : ScriptableObject
     public string buildingName;//建筑名
     public Transform prefab;//UI模型
 
-    public BuildingTypeData data;
-
-
-    [System.Serializable]
-    public class BuildingTypeData
-    {
-        public int constructCost;//建造费用
-        public int originIncomePerDay;//每日收支
-
-        public int influenceRadius;//建筑辐射半径
-    }
+    public BuildingTypeDefaultData data;
 }

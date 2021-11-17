@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8046340148639415271}
   - component: {fileID: 4552152872651084302}
   - component: {fileID: -4963712136668251748}
+  - component: {fileID: -3307945259917826425}
   m_Layer: 0
   m_Name: two_way_corner
   m_TagString: Road
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3655266149785988549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.028784, y: -3.2209792, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,3 +110,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-3307945259917826425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655266149785988549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97940cbc3e34b4ee39df9cde84bd6278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingTypeSO: {fileID: 11400000, guid: aecb181f4807045c4b614db0b9959cc0, type: 2}
+  partType: 0
+  roadName: two_way_corner

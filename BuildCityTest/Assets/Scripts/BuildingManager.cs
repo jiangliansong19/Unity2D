@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 public enum BuildState
 {
@@ -28,6 +28,13 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject BuildingInfoDialog;
 
+    private BuildMenu buildMenu;
+    private BuildRoad buildRoad;
+
+    private List<Vector3> buildRoadVectors;
+
+    private Vector3? buildRoadOrigin = null;
+
     public event EventHandler<OnActiveBuildingTypeChangedHandlerArgs> OnActiveBuildingTypeChangedHandler;
 
     public class OnActiveBuildingTypeChangedHandlerArgs
@@ -44,7 +51,9 @@ public class BuildingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        buildMenu = FindObjectOfType<BuildMenu>();
+        buildRoad = FindObjectOfType<BuildRoad>();
+        buildRoadVectors = new List<Vector3>();
     }
 
     // Update is called once per frame
@@ -54,7 +63,48 @@ public class BuildingManager : MonoBehaviour
         {
             ScanBuilding();
         }
+
+        if (buildState == BuildState.build)
+        {
+            if (Input.GetMouseButtonDown(0) &&
+                activeBuildingTypeSO != null &&
+                !buildMenu.isTouchDownInPanel() &&
+                activeBuildingTypeSO.type != BuildingType.Road)
+            {
+                BuildBuilding();
+            }
+            else if (activeBuildingTypeSO.type == BuildingType.Road)
+            {
+                if (Input.GetMouseButtonDown(0) && buildRoadOrigin == null)
+                {
+                    buildRoadOrigin = UtilsClass.GetCurrentWorldPoint();
+                    Debug.Log("Build road starting " + UtilsClass.GetCurrentWorldPoint().ToString());
+                }
+
+                if (Input.GetMouseButton(0) && buildRoadOrigin != null)
+                {
+                    Debug.Log("Build road moving " + UtilsClass.GetCurrentWorldPoint().ToString());
+
+                    buildRoad.BuildRoads((Vector3)buildRoadOrigin, UtilsClass.GetCurrentWorldPoint());
+                }
+
+                if (Input.GetMouseButtonUp(0) && buildRoadOrigin != null)
+                {
+                    Debug.Log("Build road ending " + UtilsClass.GetCurrentWorldPoint().ToString());
+
+                    buildRoadOrigin = null;
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            buildState = BuildState.scan;
+            activeBuildingTypeSO = null;
+        }
+
     }
+
 
     public void SetActiveBuildingTypeSO(BuildingTypeSO typeSO)
     {
@@ -74,6 +124,8 @@ public class BuildingManager : MonoBehaviour
     {
         return activeBuildingTypeSO;
     }
+
+
 
     public void ScanBuilding()
     {
@@ -110,13 +162,6 @@ public class BuildingManager : MonoBehaviour
         GameDataManager.Instance.IncomePerDay += income;
     }
 
-    /// 修路，起点到终点
-    public void BuildRoad(Vector3 origin, Vector3 end)
-    {
-        BuildRoad build = GameObject.FindObjectOfType<BuildRoad>();
-        build.BuildRoads(origin, end);
-
-    }
 
     public void DestructBuilding(GameObject obj, Vector3 position)
     {
@@ -146,5 +191,6 @@ public class BuildingManager : MonoBehaviour
         BuildingRunData data = building.GetComponent<BuildingRunData>();
         BuildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
     }
+
 
 }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0278d7762c1134ffc90b467e76b8cbef, type: 3}
+  m_Name: Road_0
+  m_EditorClassIdentifier: 
+  type: 3
+  buildingName: Road
+  prefab: {fileID: 4896001546499537300, guid: 84712aa97bcf944199166b3cb0c50821, type: 3}
+  data:
+    constructCost: 500
+    originIncomePerDay: -5
+    influenceRadius: 0
+  partDatas:
+  - type: 3
+    prefab: {fileID: 7495710076568352324, guid: b69788cfc24914cb7b7dae97fbc90682, type: 3}
+    partName: two_way_center
+  - type: 2
+    prefab: {fileID: 8046340148639415271, guid: 75d761ee066e34bd89b7b4299cbad4e6, type: 3}
+    partName: two_way_corner
+  - type: 0
+    prefab: {fileID: 4896001546499537300, guid: 84712aa97bcf944199166b3cb0c50821, type: 3}
+    partName: two_way_h
+  - type: 1
+    prefab: {fileID: 6503498100847611855, guid: e4d35f21670e040c98f33b510055c327, type: 3}
+    partName: two_way_v
