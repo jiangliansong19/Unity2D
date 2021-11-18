@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0278d7762c1134ffc90b467e76b8cbef, type: 3}
-  m_Name: Road_1
+  m_Name: Road_0_horizontal
   m_EditorClassIdentifier: 
-  type: 0
-  buildingName: 
+  type: 3
+  buildingName: two_way_h
+  prefab: {fileID: 4896001546499537300, guid: 84712aa97bcf944199166b3cb0c50821, type: 3}
   data:
-    constructCost: 0
-    originIncomePerDay: 0
+    constructCost: 500
+    originIncomePerDay: -5
     influenceRadius: 0
+  partType: 0

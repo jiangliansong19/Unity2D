@@ -32,4 +32,19 @@ public class BuildingTypeSO : ScriptableObject
     public Transform prefab;//UI模型
 
     public BuildingTypeDefaultData data;
+
+
+    public string GetBuildingDescription()
+    {
+        string desc = "";
+
+        desc += "Construction Cost " + UtilsClass.GetStringWithColor(data.constructCost.ToString(), "#FF0000");
+
+        if (data.originIncomePerDay > 0)
+        {
+            desc += "Income/Day " + UtilsClass.GetStringWithColor(data.originIncomePerDay.ToString(), "#00FF00");
+        }
+
+        return desc;
+    }
 }

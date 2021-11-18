@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5638330278398396464}
   - component: {fileID: -4542534789923539904}
   m_Layer: 0
-  m_Name: two_way_v
+  m_Name: pf_two_way_v
   m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 8}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &-4542534789923539904
 MonoBehaviour:

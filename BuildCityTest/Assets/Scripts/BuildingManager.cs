@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public enum BuildState
 {
@@ -28,10 +29,7 @@ public class BuildingManager : MonoBehaviour
 
     private GameObject BuildingInfoDialog;
 
-    private BuildMenu buildMenu;
     private BuildRoad buildRoad;
-
-    private List<Vector3> buildRoadVectors;
 
     private Vector3? buildRoadOrigin = null;
 
@@ -51,9 +49,7 @@ public class BuildingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        buildMenu = FindObjectOfType<BuildMenu>();
         buildRoad = FindObjectOfType<BuildRoad>();
-        buildRoadVectors = new List<Vector3>();
     }
 
     // Update is called once per frame
@@ -64,11 +60,10 @@ public class BuildingManager : MonoBehaviour
             ScanBuilding();
         }
 
-        if (buildState == BuildState.build)
+        if (buildState == BuildState.build && !EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButtonDown(0) &&
                 activeBuildingTypeSO != null &&
-                !buildMenu.isTouchDownInPanel() &&
                 activeBuildingTypeSO.type != BuildingType.Road)
             {
                 BuildBuilding();
@@ -78,20 +73,20 @@ public class BuildingManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && buildRoadOrigin == null)
                 {
                     buildRoadOrigin = UtilsClass.GetCurrentWorldPoint();
+                    buildRoad.StartingBuildRoad((Vector3)buildRoadOrigin);
                     Debug.Log("Build road starting " + UtilsClass.GetCurrentWorldPoint().ToString());
                 }
 
                 if (Input.GetMouseButton(0) && buildRoadOrigin != null)
                 {
                     Debug.Log("Build road moving " + UtilsClass.GetCurrentWorldPoint().ToString());
-
-                    buildRoad.BuildRoads((Vector3)buildRoadOrigin, UtilsClass.GetCurrentWorldPoint());
+                    buildRoad.MovingMouse(UtilsClass.GetCurrentWorldPoint());
                 }
 
                 if (Input.GetMouseButtonUp(0) && buildRoadOrigin != null)
                 {
                     Debug.Log("Build road ending " + UtilsClass.GetCurrentWorldPoint().ToString());
-
+                    buildRoad.EndedBuildRoad(UtilsClass.GetCurrentWorldPoint());
                     buildRoadOrigin = null;
                 }
             }
@@ -109,15 +104,20 @@ public class BuildingManager : MonoBehaviour
     public void SetActiveBuildingTypeSO(BuildingTypeSO typeSO)
     {
         activeBuildingTypeSO = typeSO;
-        OnActiveBuildingTypeChangedHandler?.Invoke(this, new OnActiveBuildingTypeChangedHandlerArgs
-        {
-            Args_TypeSO = activeBuildingTypeSO
-        });
 
         if (typeSO == null)
         {
             buildState = BuildState.scan;
         }
+        else
+        {
+            buildState = BuildState.build;
+        }
+
+        OnActiveBuildingTypeChangedHandler?.Invoke(this, new OnActiveBuildingTypeChangedHandlerArgs
+        {
+            Args_TypeSO = activeBuildingTypeSO
+        });
     }
 
     public BuildingTypeSO GetActiveBuildingTypeSO()

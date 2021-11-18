@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4ebab45839f4e32ba743c1fcc768bb, type: 3}
+  m_Name: Roads_ArchitectureSO
+  m_EditorClassIdentifier: 
+  typeName: Roads
+  prefab: {fileID: 4896001546499537300, guid: 84712aa97bcf944199166b3cb0c50821, type: 3}
+  list: {fileID: 11400000, guid: 8a49e08d5c9a7430185f434adddbb8a4, type: 2}

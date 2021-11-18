@@ -57,4 +57,9 @@ public static class UtilsClass
         }
         return null;
     }
+
+    public static string GetStringWithColor(string text, string color)
+    {
+        return "<color=" + color + ">" + text + "</color>";
+    }
 }

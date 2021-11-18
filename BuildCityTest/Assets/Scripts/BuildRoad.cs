@@ -4,70 +4,96 @@ using UnityEngine;
 
 public class BuildRoad : MonoBehaviour
 {
-    [SerializeField] RoadTypeSO roadTypeSO;
+    private RoadTypeSO roadTypeSO;
+    private Vector3 startPosition;
+    private Vector3 endPosition;
 
-    public void BuildRoads(Vector3 start, Vector3 end)
+    public void StartingBuildRoad(Vector3 position)
     {
+        startPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y), 0);
+        roadTypeSO = BuildingManager.Instance.GetActiveBuildingTypeSO() as RoadTypeSO;
 
-        float distanceX = Mathf.Abs(start.x - end.x);
-        float distanceY = Mathf.Abs(start.y - end.y);
-
-        if (distanceX > distanceY)
+        if (roadTypeSO.partType == RoadPartType.corner ||
+            roadTypeSO.partType == RoadPartType.cross)
         {
-            Debug.Log("build road horizontal");
-            for (float i = Mathf.Min(start.x, end.x); i < Mathf.Max(start.x, end.x); i++)
+            BoxCollider2D collider = roadTypeSO.prefab.GetComponent<BoxCollider2D>();
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(position + (Vector3)collider.offset, collider.size, 0);
+            if (colliders == null || colliders.Length == 0)
             {
-                BuildRoadItemAtPosition(RoadPartType.horizontal, new Vector3(i, start.y, 0));
-                Debug.Log("build a road at " + new Vector3(i, start.y, 0).ToString());
+                AffordMoneyToBuildRoads(startPosition);
             }
+        }
+    }
+
+    public void MovingMouse(Vector3 position)
+    {
+        endPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y), 0);
+        BuildRoads();
+    }
+
+    public void EndedBuildRoad(Vector3 position)
+    {
+        endPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y), 0);
+    }
+
+    public void BuildRoads()
+    {
+        float distanceX = Mathf.Abs(startPosition.x - endPosition.x);
+        float distanceY = Mathf.Abs(startPosition.y - endPosition.y);
+
+        if (distanceX < 1 && distanceY < 1)
+        {
+            BuildRoadItemAtPosition(startPosition);
         }
         else
         {
-            Debug.Log("build road vertical");
-            for (float i = Mathf.Min(start.y, end.y); i < Mathf.Max(start.y, end.y); i++)
+            if (distanceX > distanceY)
             {
-                BuildRoadItemAtPosition(RoadPartType.vertical, new Vector3(start.x, i, 0));
+                Debug.Log("build road horizontal");
+                BuildHorizontalRoads();
+            }
+            else
+            {
+                Debug.Log("build road vertical");
+                BuildVerticalRoads();
             }
         }
     }
 
-    private void BuildRoadItemAtPosition(RoadPartType type, Vector3 position)
+    private void BuildHorizontalRoads()
     {
-        if (CanBuildRoadAtPosition(type, position))
-        {
-            GameObject prefab = roadTypeSO.GetPartInfoByType(type).prefab.gameObject;
-            Vector3 roundPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y), 0);
-            Instantiate(prefab, roundPosition, Quaternion.identity);
 
-            UpdateIncomePerDay();
+        for (float i = Mathf.Min(startPosition.x, endPosition.x); i < Mathf.Max(startPosition.x, endPosition.x); i++)
+        {
+            BuildRoadItemAtPosition(new Vector3(i, startPosition.y, 0));
         }
     }
 
-    private void UpdateIncomePerDay()
+    private void BuildVerticalRoads()
     {
+        for (float i = Mathf.Min(startPosition.y, endPosition.y); i<Mathf.Max(startPosition.y, endPosition.y); i++)
+        {
+            BuildRoadItemAtPosition(new Vector3(startPosition.x, i, 0));
+        }
+    }
+
+    private void BuildRoadItemAtPosition(Vector3 position)
+    {
+        RaycastHit2D castObjc = Physics2D.Raycast(position, Vector2.zero);
+        if (castObjc.collider == null)
+        {
+            AffordMoneyToBuildRoads(position);
+        }
+    }
+
+    private void AffordMoneyToBuildRoads(Vector3 position)
+    {
+        Vector3 roundPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y), 0);
+        Instantiate(roadTypeSO.prefab.gameObject, roundPosition, Quaternion.identity);
+
         GameDataManager.Instance.totalMoney -= roadTypeSO.data.constructCost;
         GameDataManager.Instance.IncomePerDay += roadTypeSO.data.originIncomePerDay;
     }
-
-
-    private bool CanBuildRoadAtPosition(RoadPartType type, Vector3 position)
-    {
-        RaycastHit2D castObjc = Physics2D.Raycast(position, Vector3.zero);
-        if (castObjc.collider == null)
-        {
-            return true;
-        }
-        else
-        {
-            if (castObjc.collider.name != roadTypeSO.GetPartInfoByType(type).partName + "(Clone)")
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 
     private bool HasBuildingCollidersOverlap(GameObject prefab, Vector3 origin, Vector3 end)
     {
