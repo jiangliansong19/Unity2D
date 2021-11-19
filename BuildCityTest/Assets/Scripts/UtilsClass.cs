@@ -12,15 +12,21 @@ public static class UtilsClass
         return point;
     }
 
+    public static Vector3 getRoundCurrentWorldPoint()
+    {
+        Vector3 point = GetCurrentWorldPoint();
+        return new Vector3(Mathf.Round(point.x), Mathf.Round(point.y), 0);
+    }
+
     //sprite convert to Texture
-    public static Texture GetTextureFromSprite(Sprite sprite)
+    public static Texture GetTextureFromSprite(Sprite sprite, float scale = 1.0f)
     {
         Texture2D croppedTexture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
         Color[] pixels = sprite.texture.GetPixels((int)sprite.textureRect.x,
                                                 (int)sprite.textureRect.y,
                                                 (int)sprite.textureRect.width,
                                                 (int)sprite.textureRect.height);
-        croppedTexture.SetPixels(0, 0, (int)sprite.textureRect.width, (int)sprite.textureRect.height, pixels, 0);
+        croppedTexture.SetPixels(0, 0, (int)(sprite.textureRect.width * scale), (int)(sprite.textureRect.height * scale), pixels, 0);
         croppedTexture.Apply();
         return croppedTexture;
     }

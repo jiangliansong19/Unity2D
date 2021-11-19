@@ -17,5 +17,5 @@ MonoBehaviour:
   prefab: {fileID: 7416050965878304065, guid: d8fa3df575c32414c8ceb24bfbb3b9a4, type: 3}
   data:
     constructCost: 20000
-    originIncomePerDay: 0
+    originIncomePerDay: 300
     influenceRadius: 0

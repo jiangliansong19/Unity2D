@@ -8,11 +8,16 @@ using UnityEngine;
 /// </summary>
 public class BuildingRunData : MonoBehaviour
 {
-    public int incomePerDay;//日收入
-    public int influenceRadius;//建筑辐射半径
+    [HideInInspector] public int incomePerDay;//日收入
+    [HideInInspector] public int influenceRadius;//建筑辐射半径
+
+    [HideInInspector] public bool isConnectTo;//是否连接到市中心
 
     [HideInInspector] public float incomeCorrectRadio;//收入修正比例
     [HideInInspector] public float influenceCorrctRadio;//辐射修正比例
+
+
+
 
 
     public string GetBuildingDescription()
@@ -21,7 +26,7 @@ public class BuildingRunData : MonoBehaviour
 
         string desc = "";
 
-        desc += "Construction Cost " + UtilsClass.GetStringWithColor(typeSO.data.constructCost.ToString(), "#FF0000");
+        desc += "Construction Cost " + UtilsClass.GetStringWithColor(typeSO.data.constructCost.ToString(), "#FF0000") + "\n";
 
         if (typeSO.data.originIncomePerDay > 0)
         {

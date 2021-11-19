@@ -23,9 +23,10 @@ public class GameMouse : MonoBehaviour
 
     private void BuildingManager_OnActiveBuildingTypeChangedHandler(object sender, BuildingManager.OnActiveBuildingTypeChangedHandlerArgs e)
     {
-        if (e != null)
+        if (e.Args_TypeSO != null)
         {
-            spriteRenderer.sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
+            Sprite sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
+            spriteRenderer.sprite = sprite;
             spriteRenderer.color = new Color(1, 1, 1, 0.5f);
         }
         else

@@ -13,7 +13,7 @@ public class ToolTipsUI : MonoBehaviour
     private RectTransform backgroundTransform;
     private RectTransform rectTransform;
 
-    private float dismissTimer = 2f;
+    private ShowTimer showTimer;
 
     private void Awake()
     {
@@ -30,12 +30,15 @@ public class ToolTipsUI : MonoBehaviour
         rectTransform.anchoredPosition = Input.mousePosition / parentCanvas.localScale.x;
 
 
-
-        dismissTimer -= Time.deltaTime;
-        if (dismissTimer <= 0)
+        if (showTimer != null)
         {
-            Hidden();
+            showTimer.time -= Time.deltaTime;
+            if (showTimer.time <= 0)
+            {
+                Hidden();
+            }
         }
+
 
     }
 
@@ -53,14 +56,7 @@ public class ToolTipsUI : MonoBehaviour
         Vector2 padding = new Vector2(8, 8);
         backgroundTransform.sizeDelta = size + padding;
 
-        if (showTimer != null)
-        {
-            dismissTimer = showTimer.time;
-        }
-        else
-        {
-            dismissTimer = 2f;
-        }
+        this.showTimer = showTimer;
     }
 
     public class ShowTimer

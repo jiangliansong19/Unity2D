@@ -21,6 +21,8 @@ public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance { private set; get; }
 
+    [SerializeField] private GameObject cityCenter;
+
     [HideInInspector] public BuildState buildState = BuildState.scan;
 
     private BuildingTypeSO activeBuildingTypeSO;
@@ -44,12 +46,17 @@ public class BuildingManager : MonoBehaviour
     {
         Instance = this;
         buildingInfoDict = new Dictionary<BuildingTypeSO, GameObject>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
         buildRoad = FindObjectOfType<BuildRoad>();
+
+        //默认开局建造了市中心
+        BuildingTypeSO cityCenterSO = cityCenter.GetComponent<BuildingTypeSOHolder>().buidlingTypeSO;
+        GameDataManager.Instance.IncomePerDay += cityCenterSO.data.originIncomePerDay;
     }
 
     // Update is called once per frame
@@ -95,7 +102,7 @@ public class BuildingManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             buildState = BuildState.scan;
-            activeBuildingTypeSO = null;
+            SetActiveBuildingTypeSO(null);
         }
 
     }
@@ -133,7 +140,12 @@ public class BuildingManager : MonoBehaviour
         GameObject obj = UtilsClass.GetObjectByRay(position);
         if (obj != null && obj.tag.StartsWith("Building"))
         {
-            ShowBuildingInfoDialog(obj, position);
+            //ShowBuildingInfoDialog(obj, position);
+            BuildingRunData runData = obj.GetComponent<BuildingRunData>();
+            BuildingTypeSOHolder holder = obj.GetComponent<BuildingTypeSOHolder>();
+
+            string message = holder.buidlingTypeSO.buildingName + "\n" + runData.GetBuildingDescription();
+            ToolTipsUI.Instance.ShowMessage(message, new ToolTipsUI.ShowTimer { time = 3 });
         }
     }
 
@@ -148,7 +160,10 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+        
+
+
+        Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, UtilsClass.getRoundCurrentWorldPoint(), Quaternion.identity);
 
         //受到道路影响，建筑辐射面积增加
         float radio = 1.0f;
@@ -191,6 +206,4 @@ public class BuildingManager : MonoBehaviour
         BuildingRunData data = building.GetComponent<BuildingRunData>();
         BuildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
     }
-
-
 }

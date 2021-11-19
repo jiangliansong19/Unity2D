@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum BuildingType
 {
+    CityCenter,
     House,
     Shop,
     Hall,
@@ -42,7 +43,7 @@ public class BuildingTypeSO : ScriptableObject
 
         if (data.originIncomePerDay > 0)
         {
-            desc += "Income/Day " + UtilsClass.GetStringWithColor(data.originIncomePerDay.ToString(), "#00FF00");
+            desc += " Income/Day " + UtilsClass.GetStringWithColor(data.originIncomePerDay.ToString(), "#00FF00");
         }
 
         return desc;

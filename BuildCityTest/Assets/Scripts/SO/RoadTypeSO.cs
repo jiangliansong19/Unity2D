@@ -9,6 +9,7 @@ public enum RoadPartType
     vertical,
     corner,
     cross,
+    oneWay
 }
 
 

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: AutoSales
   m_EditorClassIdentifier: 
+  type: 0
   buildingName: AutoSales
   prefab: {fileID: 1499124627456905687, guid: b0994952525b5f842b8ab94d60308a31, type: 3}
-  constructCost: 2000
-  dayIncome: 50
+  data:
+    constructCost: 1000
+    originIncomePerDay: 10
+    influenceRadius: 0

@@ -8,18 +8,21 @@ using Image = UnityEngine.UI.Image;
 
 public class BuildMenuUI : MonoBehaviour
 {
+    [SerializeField] List<BuildingTypeSO> ignoreBuildingList;
     private ArchitectureListSO architectureList;
 
     private float padding = 10f;
-    private float width = 40f;
+    private float width = 50f;
     private Transform buttonTemplate;
 
     private List<Transform> tmpTransforms;
+    private List<Transform> architectureTransforms;
 
     private void Awake()
     {
         architectureList = Resources.Load<ArchitectureListSO>(typeof(ArchitectureListSO).Name);
         tmpTransforms = new List<Transform>();
+        architectureTransforms = new List<Transform>();
 
         buttonTemplate = transform.Find("BuildMenuItem");
         buttonTemplate.gameObject.SetActive(false);
@@ -37,14 +40,21 @@ public class BuildMenuUI : MonoBehaviour
         {
             Transform buttonTransform = Instantiate(buttonTemplate, transform);
             buttonTransform.gameObject.SetActive(true);
+            architectureTransforms.Add(buttonTransform);
 
             buttonTransform.Find("Icon").GetComponent<Image>().sprite = aso.prefab.GetComponent<SpriteRenderer>().sprite;
-
+            buttonTransform.Find("Selected").gameObject.SetActive(false);
 
             buttonTransform.GetComponent<RectTransform>().anchoredPosition = new Vector2(i * (width + padding), 0);
 
             buttonTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
+                foreach (Transform item in architectureTransforms)
+                {
+                    item.Find("Selected").gameObject.SetActive(false);
+                }
+                buttonTransform.Find("Selected").gameObject.SetActive(true);
+
                 if (tmpTransforms.Count > 0)
                 {
                     foreach (Transform item in tmpTransforms)
@@ -66,23 +76,33 @@ public class BuildMenuUI : MonoBehaviour
         int i = 0;
         foreach (BuildingTypeSO aso in so.list.list)
         {
+            if (ignoreBuildingList.Contains(aso))
+            {
+                continue;
+            }
             Transform buttonTransform = Instantiate(buttonTemplate, transform);
             buttonTransform.gameObject.SetActive(true);
             tmpTransforms.Add(buttonTransform);
 
             buttonTransform.Find("Icon").GetComponent<Image>().sprite = aso.prefab.GetComponent<SpriteRenderer>().sprite;
-
+            buttonTransform.Find("Selected").gameObject.SetActive(false);
 
             buttonTransform.GetComponent<RectTransform>().anchoredPosition = new Vector2(i * (width + padding), width + padding);
 
             buttonTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
                 BuildingManager.Instance.SetActiveBuildingTypeSO(aso);
+
+                foreach (Transform item in tmpTransforms)
+                {
+                    item.Find("Selected").gameObject.SetActive(false);
+                }
+                buttonTransform.Find("Selected").gameObject.SetActive(true);
+
             });
 
             buttonTransform.GetComponent<MouseEnterAndExits>().OnMouseEnterEvent += (object sender, System.EventArgs e) =>
             {
-                Debug.Log("OnMouseEnterEvent");
                 ToolTipsUI.Instance.ShowMessage(aso.GetBuildingDescription());
             };
 
